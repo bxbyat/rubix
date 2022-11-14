@@ -1,5 +1,0 @@
-package rubix;
-
-class Cube {
-
-}
