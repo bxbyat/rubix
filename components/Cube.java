@@ -12,9 +12,9 @@ public class Cube {
 
   public ArrayList<Sticker> solvedCube = new ArrayList<>();
   public final HashMap<String, Move> moveSet = new HashMap<>();
-  ArrayList<Character> facelet;
+  public ArrayList<Character> facelet;
   final HashMap<Character, Integer> faceToInt = new HashMap<Character, Integer>();
-  final char[] colours = {'U', 'L', 'F', 'R', 'B', 'D'};
+  final HashMap<Character, String> colourMap = new HashMap<>();
 
   private void createMoveSet(String name, Vector axis, CheckPosition check) {
     Move move1 = new Move(name, axis, 90, check);
@@ -33,7 +33,11 @@ public class Cube {
     for (int i = 0; i < 6; i++) {
       faceToInt.put(faceChars[i], i * 9);
     }*/
-
+    String[] colours = {"⬜", "🟧", "🟩", "🟥", "🟦", "🟨"};
+    Character[] faces = {'U', 'L', 'F', 'R', 'B', 'D'};
+    for (int i = 0; i < 6; i++) {
+      colourMap.put(faces[i], colours[i]);
+    }
     for (int i: new int[]{-3, 3}) {
       for (int j = -2; j <= 2; j += 2) {
         for (int k = -2; k <= 2; k += 2) {
@@ -68,6 +72,12 @@ public class Cube {
         if (c2 == num) return 1;
         return -2;
       }
+
+      public int secondaryCheck(int pc1, int pc2, int qc1, int qc2) {
+        return pc1 > qc1 ? 1 :
+                pc1 < qc1 ? -1 :
+                        pc2 > qc2 ? 1 : -1;
+      }
       @Override
       public int compare(Sticker s1, Sticker s2) {
         Vector p1 = s1.pos;
@@ -83,10 +93,19 @@ public class Cube {
         for (int i = 0; i < 6; i++) {
           if (checks.get(i) == 0) {
 
+            /*
+            (-2 -2) (0 -2) (2 -2)
+            (-2  0) (0  0) (2  0)
+            (-2  2) (0  2) (2  2)
+             */
+            if (i == 0) return secondaryCheck(p1.z, p1.x, p2.z, p2.x);
+            if (i == 1) return secondaryCheck(p2.y, p1.z, p1.y, p2.z);
+            if (i == 2) return secondaryCheck(p2.y, p1.x, p1.y, p2.x);
+            if (i == 3) return secondaryCheck(p2.y, p2.z, p1.y, p1.z);
+            if (i == 4) return secondaryCheck(p2.y, p2.x, p1.y, p1.x);
+            return secondaryCheck(p2.z, p1.x, p1.z, p2.x);
           }
-          if (checks.get(i) != -2) {
-            return checks.get(i);
-          }
+          if (checks.get(i) != -2) return checks.get(i);
         }
         return 0;
       }
@@ -119,31 +138,41 @@ public class Cube {
   public void display() {
     System.out.println(this);
   }
-
+  public void showStickers() {
+    for (Sticker s: solvedCube) {
+      System.out.println(s);
+    }
+  }
   @Override
   public String toString() {
 
     StringBuilder str = new StringBuilder();
+    str.append("⬛".repeat(17)).append('\n');
     for (int i = 0; i < 9; i += 3) {
-      str.append("   ");
-      str.append(String.valueOf(facelet.get(i)).repeat(i + 3 - i));
-      str.append('\n');
+      str.append("⬛".repeat(5));
+      for (int j = i; j < i + 3; j++)
+        str.append(colourMap.get(facelet.get(j)));
+      str.append("⬛".repeat(9)).append('\n');
     }
+    str.append("⬛".repeat(17)).append('\n');
     for (int i = 9; i <= 15; i+=3) {
+      str.append("⬛");
       for (int j = i; j <= i + 27; j+=9) {
         for (int k = j; k <= j + 2; k++) {
-          str.append(facelet.get(k));
+          str.append(colourMap.get(facelet.get(k)));
         }
+        str.append("⬛");
       }
-
       str.append('\n');
     }
-
+    str.append("⬛".repeat(17)).append('\n');
     for (int i = 45; i < 54; i += 3) {
-      str.append("   ");
-      str.append(String.valueOf(facelet.get(i)).repeat(i + 3 - i));
-      str.append('\n');
+      str.append("⬛".repeat(5));
+      for (int j = i; j < i + 3; j++)
+        str.append(colourMap.get(facelet.get(j)));
+      str.append("⬛".repeat(9)).append('\n');
     }
+    str.append("⬛".repeat(17));
     return str.toString();
   }
 
@@ -166,14 +195,8 @@ public class Cube {
   /*
 
   below is useless, for setup of facelet model
-   */
 
-  /**
-   * Easy square finder
-   * @param face face of the square
-   * @param index index on the given face from 1 to 9
-   * @return index corresponding to pieces array
-   */
+
   private Integer S(Character face, int index) {
     return faceToInt.get(face) + index - 1;
   }
@@ -189,10 +212,7 @@ public class Cube {
 
 
 
-  /**
-   * Up face clockwise move
-   *
-   */
+
   public Cube upCCW() {
     cycle(List.of(S('U', 1), S('U', 3), S('U', 5), S('U', 7)));
     cycle(List.of(S('U', 2), S('U', 4), S('U', 6), S('U', 8)));
@@ -201,5 +221,5 @@ public class Cube {
     cycle(List.of(S('F', 3), S('L', 3), S('B', 3), S('R', 3)));
     return this;
   }
-
+  */
 }

@@ -1,11 +1,14 @@
-import making_stuff.*;
+import components.*;
+
+import java.util.ArrayList;
 
 public class Main {
 
   public static void main(String[] args) {
-    Cube cube = new Cube("");
-    Sticker sticker = new Sticker(new Vector(0, -2, 3));
-    sticker.moveSticker(cube.moveSet.get("D").get(0));
-    System.out.println(sticker.target);
+    Cube cube = new Cube();
+    cube.applyMoves("U2 D2 R2 L2 F2 B2");
+    cube.display();
+    cube.applyMoves("U2 D2 R2 L2 F2 B2");
+    cube.display();
   }
 }
