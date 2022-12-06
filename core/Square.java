@@ -1,3 +1,5 @@
+package core;
+
 import java.awt.*;
 import java.util.HexFormat;
 
@@ -23,11 +25,16 @@ public class Square {
      * -------------------
      * @param colour  The colour of the square
      */
-    public Square(Color colour) {
-        this.colour = colour;
-        this.text = "";
-        this.symbol = "";
+//    public Square(Color colour) {
+//        this.colour = colour;
+//        this.text = "";
+//        this.symbol = "";
+//    }
+
+    public Square(){
+
     }
+
 
     /**
      *
