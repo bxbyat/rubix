@@ -1,3 +1,5 @@
+package core;
+
 /**
  * One of six faces of a Rubik's cube.
  */
