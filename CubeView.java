@@ -1,4 +1,4 @@
-package rubixrepo.rubix;
+//package rubixrepo.rubix;
 
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;

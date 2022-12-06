@@ -9,13 +9,33 @@ import java.util.List;
  * A Rubik's Cube representation
  */
 public class Cube {
-
-  public ArrayList<Sticker> solvedCube = new ArrayList<>();
+  /**
+   * Holds the Stickers of the cube
+   */
+  public ArrayList<Sticker> pieces = new ArrayList<>();
+  /**
+   * Maps standard move notation to moves for pieces
+   */
   public final HashMap<String, Move> moveSet = new HashMap<>();
+  /**
+   * Holds the facelet model of the cube
+   */
   public ArrayList<Character> facelet;
+  /**
+   * Unused, to be removed?
+   */
   final HashMap<Character, Integer> faceToInt = new HashMap<Character, Integer>();
+  /**
+   * Currently maps Character representing a face to its corresponding colour
+   */
   final HashMap<Character, String> colourMap = new HashMap<>();
 
+  /**
+   * Generates all the moves for a given face
+   * @param name the base name for the moveset
+   * @param axis the axis on which the pieces are rotated
+   * @param check validates pieces for rotation
+   */
   private void createMoveSet(String name, Vector axis, CheckPosition check) {
     Move move1 = new Move(name, axis, 90, check);
     Move move2 = new Move(name + "2", axis, 180, check);
@@ -24,6 +44,10 @@ public class Cube {
     moveSet.put(move2.name, move2);
     moveSet.put(move3.name, move3);
   }
+
+  /**
+   * Cube Constructor
+   */
   public Cube() {
     /* this.facelet = new ArrayList<>();
     for (int i = 0; i < 54; i++) {
@@ -41,9 +65,9 @@ public class Cube {
     for (int i: new int[]{-3, 3}) {
       for (int j = -2; j <= 2; j += 2) {
         for (int k = -2; k <= 2; k += 2) {
-          solvedCube.add(new Sticker(new Vector(i, j, k)));
-          solvedCube.add(new Sticker(new Vector(j, i, k)));
-          solvedCube.add(new Sticker(new Vector(j, k, i)));
+          pieces.add(new Sticker(new Vector(i, j, k)));
+          pieces.add(new Sticker(new Vector(j, i, k)));
+          pieces.add(new Sticker(new Vector(j, k, i)));
         }
       }
     }
@@ -63,11 +87,31 @@ public class Cube {
 
   }
 
+  /**
+   * Sorts "pieces" to maintain facelet order
+   *
+   *          00 01 02
+   *          03 04 05
+   *          06 07 08
+   * 09 10 11 18 19 20 27 28 29 36 37 38
+   * 12 13 14 21 22 23 30 31 32 39 40 41
+   * 15 16 17 24 25 26 33 34 35 42 43 44
+   *          45 46 47
+   *          48 49 50
+   *          51 52 53
+   */
   public void sortCube() {
     Comparator<Sticker> c = new Comparator<Sticker>() {
-      public int compareHelper(int c1, int c2, int num) {
+      /**
+       * Checks if any given vector position is a 3 or -3 depending on given "num"
+       * @param c1 First vector position
+       * @param c2 Second vector position
+       * @param num number to be compared (-3 or 3)
+       * @return Usual comparator return, or -2 if no conclusion can be made
+       */
+      public int mainCheck(int c1, int c2, int num) {
 
-        if (c1 == num && c2 == num) return 0;
+        if (c1 == num && c2 == num) return 0; //
         if (c1 == num) return -1;
         if (c2 == num) return 1;
         return -2;
@@ -84,12 +128,12 @@ public class Cube {
         Vector p2 = s2.pos;
 
         List<Integer> checks = new ArrayList<>();
-        checks.add(compareHelper(p1.y, p2.y, 3));
-        checks.add(compareHelper(p1.x, p2.x, -3));
-        checks.add(compareHelper(p1.z, p2.z, 3));
-        checks.add(compareHelper(p1.x, p2.x, 3));
-        checks.add(compareHelper(p1.z, p2.z, -3));
-        checks.add(compareHelper(p1.y, p2.y, -3));
+        checks.add(mainCheck(p1.y, p2.y, 3));
+        checks.add(mainCheck(p1.x, p2.x, -3));
+        checks.add(mainCheck(p1.z, p2.z, 3));
+        checks.add(mainCheck(p1.x, p2.x, 3));
+        checks.add(mainCheck(p1.z, p2.z, -3));
+        checks.add(mainCheck(p1.y, p2.y, -3));
         for (int i = 0; i < 6; i++) {
           if (checks.get(i) == 0) {
 
@@ -110,13 +154,13 @@ public class Cube {
         return 0;
       }
     };
-    solvedCube.sort(c);
+    pieces.sort(c);
     this.generateFaceletModel();
   }
 
   public void generateFaceletModel() {
     facelet = new ArrayList<>();
-    for (Sticker s: solvedCube) {
+    for (Sticker s: pieces) {
       facelet.add(s.getFace());
     }
   }
@@ -131,7 +175,7 @@ public class Cube {
     this.sortCube();
   }
   public void doMove(Move move) {
-    for (Sticker s: solvedCube) {
+    for (Sticker s: pieces) {
       s.moveSticker(move);
     }
   }
@@ -139,7 +183,7 @@ public class Cube {
     System.out.println(this);
   }
   public void showStickers() {
-    for (Sticker s: solvedCube) {
+    for (Sticker s: pieces) {
       System.out.println(s);
     }
   }
@@ -175,22 +219,6 @@ public class Cube {
     str.append("⬛".repeat(17));
     return str.toString();
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   /*
 

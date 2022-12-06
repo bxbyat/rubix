@@ -1,6 +1,4 @@
-import components.*;
-
-import java.util.ArrayList;
+import components.Cube;
 
 public class Main {
 
