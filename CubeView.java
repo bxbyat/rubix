@@ -1,4 +1,4 @@
-package rubixrepo.rubix;
+package rubix;
 
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -12,7 +12,6 @@ import java.util.*;
 
 /**
  * Cube View for the CubeApp.
- *
  *
  */
 public class CubeView {
@@ -303,9 +302,19 @@ public class CubeView {
             faceNum += 1;
         }
         else {
+
+            // the user has inputted everything, now we call all the functions
+
             stage.setScene(scene3);
-            //System.out.print(returns); //todo need this for the solving algorithm
             stage.show();
+            CubeSolver solver = new CubeSolver(this.returns);
+            List<String> steps = solver.solve();
+
+            //todo steps is a List<String> that looks like this
+            //["Rotate the U face clockwise 90 degrees. ", "Rotate the D face counterclockwise 90 degrees. "];
+
+
+
         }
     }
 
