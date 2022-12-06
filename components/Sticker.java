@@ -18,10 +18,10 @@ public class Sticker {
   public Character getFace() {
     return target.x == 3 ? 'R' :
             target.x == -3 ? 'L' :
-            target.y == 3 ? 'U' :
-            target.y == -3 ? 'D' :
-            target.z == 3 ? 'F' :
-            target.z == -3 ? 'B' : '-';
+                    target.y == 3 ? 'U' :
+                            target.y == -3 ? 'D' :
+                                    target.z == 3 ? 'F' :
+                                            target.z == -3 ? 'B' : '-';
   }
   public void moveSticker(Move move) {
     if (move.check.run(pos)) {
@@ -62,6 +62,11 @@ public class Sticker {
       pos = new Vector((int) Math.round(xPrime), (int) Math.round(yPrime), (int) Math.round(zPrime));
 
     }
+  }
+
+  @Override
+  public String toString() {
+    return this.getFace() + ": " + pos.toString();
   }
 
 }
