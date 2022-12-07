@@ -5,7 +5,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-
 import java.util.*;
 
 /**
@@ -21,13 +20,21 @@ public class CubeView {
     Button topLeft, topMid, topRight, midLeft, midMid, midRight, bottomLeft, bottomMid, bottomRight;
     Label topF, leftF, frontF, rightF, backF, bottomF;
 
-    boolean colourMode; // false if user chooses symbols
+    boolean colourMode = false; // false if user chooses symbols
+    boolean contrastMode = false;
     int faceNum; // counter keeping track of completed faces
     ChoiceBox<String> dropList; // list of colours to choose from
     Label[] modelTiles; // list of tiles used in the reference model
     List<Button> buttonList; // list of buttons used in colour setup
     HashMap<Integer, List<String>> returns;
-
+    Map<String, String> colorToContrast = Map.of(
+            "Red", "rgb(225, 24, 69)",
+            "Orange", "rgb(255, 0, 189)",
+            "Blue", "rgb(0, 87, 233)",
+            "Green", "rgb(135, 233, 17)",
+            "Yellow", "rgb(242, 202, 25)",
+            "White", "rgb(137, 49, 239)"
+    );
 
     public CubeView(Stage stage) {
         this.stage = stage;
@@ -46,20 +53,31 @@ public class CubeView {
         popupColour.setStyle("-fx-font: normal bold 15px ''; -fx-text-fill: darkblue; -fx-border-color: darkblue;");
         popupColour.setOnAction(e -> {
             colourMode = true;
+            contrastMode = false;
             stage.setScene(scene2);
             stage.show();
         });
         Button popupSymbol = new Button("Letter Symbols");
-        popupColour.setId("S");
+        popupSymbol.setId("S");
         popupSymbol.setStyle("-fx-font: normal bold 15px ''; -fx-text-fill: darkblue; -fx-border-color: darkblue;");
         popupSymbol.setOnAction(e -> {
             colourMode = false;
+            contrastMode = false;
+            stage.setScene(scene2);
+            stage.show();
+        });
+        Button popupContrast = new Button("High Contrast Mode");
+        popupContrast.setId("H");
+        popupContrast.setStyle("-fx-font: normal bold 15px ''; -fx-text-fill: darkblue; -fx-border-color: darkblue;");
+        popupContrast.setOnAction(e -> {
+            colourMode = false;
+            contrastMode = true;
             stage.setScene(scene2);
             stage.show();
         });
 
         FlowPane fPane = new FlowPane();
-        fPane.getChildren().addAll(popupLabel, popupColour, popupSymbol);
+        fPane.getChildren().addAll(popupLabel, popupColour, popupContrast, popupSymbol);
         fPane.setHgap(10);
         fPane.setPadding(new Insets(5, 5, 5, 5));
 
@@ -72,6 +90,7 @@ public class CubeView {
         titleLabel.setStyle("-fx-font: normal bold 50px ''; -fx-text-fill: darkblue; -fx-border-color: darkblue");
         titleLabel.setPadding(new Insets(5, 5, 5, 5));
 
+        // Squares of the Rubik's cube
         topLeft = new Button("");
         topLeft.setId("");
         topLeft.setStyle("-fx-text-fill: black; -fx-border-color: black;");
@@ -248,7 +267,7 @@ public class CubeView {
     }
 
     /**
-     * Changes the appearance of a button when clicked.
+     * Changes the appearance of a Square button when clicked.
      *
      * @param b button being clicked
      */
@@ -256,6 +275,11 @@ public class CubeView {
     private void handleTileButton(ActionEvent e, Button b) {
         if (colourMode) {
             b.setStyle("-fx-background-color: " + dropList.getValue() + "; " +
+                    "-fx-border-color: black;");
+        }
+
+        else if (contrastMode){
+            b.setStyle("-fx-background-color: " + colorToContrast.get(dropList.getValue()) + "; " +
                     "-fx-border-color: black;");
         }
         else {
