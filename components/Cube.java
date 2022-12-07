@@ -12,7 +12,7 @@ public class Cube {
   /**
    * Holds the Stickers of the cube
    */
-  public ArrayList<Sticker> pieces = new ArrayList<>();
+  private ArrayList<Sticker> pieces = new ArrayList<>();
   /**
    * Maps standard move notation to moves for pieces
    */
@@ -65,9 +65,9 @@ public class Cube {
     for (int i: new int[]{-3, 3}) {
       for (int j = -2; j <= 2; j += 2) {
         for (int k = -2; k <= 2; k += 2) {
-          pieces.add(new Sticker(new Vector(i, j, k)));
-          pieces.add(new Sticker(new Vector(j, i, k)));
-          pieces.add(new Sticker(new Vector(j, k, i)));
+          pieces.add(new Sticker(new Vector(i, j, k), null));
+          pieces.add(new Sticker(new Vector(j, i, k), null));
+          pieces.add(new Sticker(new Vector(j, k, i), null));
         }
       }
     }
@@ -220,14 +220,22 @@ public class Cube {
     return str.toString();
   }
 
+  public void setPieces(ArrayList<Sticker> pieces) {
+    this.pieces = pieces;
+  }
+  public ArrayList<Sticker> getPieces() {
+    return pieces;
+  }
+
+  public static Integer S(Character face, int index) {
+    return faceToInt.get(face) + index - 1;
+  }
   /*
 
   below is useless, for setup of facelet model
 
 
-  private Integer S(Character face, int index) {
-    return faceToInt.get(face) + index - 1;
-  }
+
 
   private void cycle(List<Integer> indices) {
     Character temp = facelet.get(indices.get(0));

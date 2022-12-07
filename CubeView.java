@@ -319,14 +319,14 @@ public class CubeView {
                 stmMoves.add(fbFaces.charAt(i) + "2");
             }
 
-            String scramble = "U B L D B";
-            Cube cube = new Cube();
-            cube = cube.applyMoves(scramble);
-            cube.display();
-
+            //String scramble = "U B L D B";
+            //Cube cube = new Cube();
+            //cube = cube.applyMoves(scramble);
+            //cube.display();
+            Cube cube = CreateCubeFromInput.makeCube(returns);
             Solver solver = new Solver(stmMoves);
             String solution = solver.iddfsSolve(cube, 5);
-            System.out.println(solution);
+            //System.out.println(solution);
 
             //System.out.print(returns); //todo need this for the solving algorithm
             stage.show();
