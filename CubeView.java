@@ -12,7 +12,6 @@ import java.util.*;
 /**
  * Cube View for the CubeApp.
  *
- *
  */
 public class CubeView {
 
@@ -159,7 +158,7 @@ public class CubeView {
         pane.add(bottomMid, 1, 3);
         pane.add(bottomRight, 2, 3);
 
-        buttonList = Arrays.asList(topLeft, topMid, topRight, midLeft, midMid, midRight, bottomLeft,
+        buttonList = (List<Button>) Arrays.asList(topLeft, topMid, topRight, midLeft, midMid, midRight, bottomLeft,
                 bottomMid, bottomRight);
 
         Label instructions = new Label("""
@@ -302,6 +301,9 @@ public class CubeView {
             faceNum += 1;
         }
         else {
+
+            // the user has inputted everything, now we call all the functions
+
             stage.setScene(scene3);
 
             /*
@@ -328,6 +330,15 @@ public class CubeView {
 
             //System.out.print(returns); //todo need this for the solving algorithm
             stage.show();
+            //CubeSolver solver = new CubeSolver(this.returns);
+            //List<String> steps = solver.solve();
+            InstructionIterator iterator = new InstructionIterator(List.of(solution.split(" ")));
+
+            //todo steps is a List<String> that looks like this
+            //["Rotate the U face clockwise 90 degrees. ", "Rotate the D face counterclockwise 90 degrees. "];
+
+
+
         }
     }
 

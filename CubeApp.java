@@ -15,9 +15,18 @@ public class CubeApp extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage){
+
+        // run CubeView, which then calls solver and gets instructions
+
         this.view = new CubeView(primaryStage);
 
+
+        // change steps into sentences
+        //return Arrays.asList("U", "B'", "F2", "L'", "R", "2D", "U'");
+
     }
+
+
 
 }
