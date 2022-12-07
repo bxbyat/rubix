@@ -1,3 +1,4 @@
+import components.Cube;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -302,6 +303,29 @@ public class CubeView {
         }
         else {
             stage.setScene(scene3);
+
+            /*
+            This is where the cube gets solved
+             */
+            String fbFaces = "ULFRBD";
+
+
+            ArrayList<String> stmMoves = new ArrayList<>();
+            for (int i = 0; i < fbFaces.length(); i++) {
+                stmMoves.add(String.valueOf(fbFaces.charAt(i)));
+                stmMoves.add(fbFaces.charAt(i) + "'");
+                stmMoves.add(fbFaces.charAt(i) + "2");
+            }
+
+            String scramble = "U B L D B";
+            Cube cube = new Cube();
+            cube = cube.applyMoves(scramble);
+            cube.display();
+
+            Solver solver = new Solver(stmMoves);
+            String solution = solver.iddfsSolve(cube, 5);
+            System.out.println(solution);
+
             //System.out.print(returns); //todo need this for the solving algorithm
             stage.show();
         }
