@@ -1,6 +1,6 @@
 package builder;
-import core.*;
 
+import core.*;
 import java.awt.*;
 
 public class SquareBuilder implements Builder{
