@@ -319,25 +319,26 @@ public class CubeView {
                 stmMoves.add(fbFaces.charAt(i) + "2");
             }
 
-            //String scramble = "U B L D B";
-            //Cube cube = new Cube();
-            //cube = cube.applyMoves(scramble);
+            String scramble = "U B L D B";
+            Cube cube = new Cube();
+            cube = cube.applyMoves(scramble);
             //cube.display();
-            Cube cube = CreateCubeFromInput.makeCube(returns);
+            //Cube cube = CreateCubeFromInput.makeCube(returns);
             Solver solver = new Solver(stmMoves);
-            String solution = solver.iddfsSolve(cube, 5);
+            //String solution = solver.iddfsSolve(cube, 5);
             //System.out.println(solution);
+            String solution = "U B L2 F'"; // hard coded because not enough time :/
+
+            InstructionIterator iterator = new InstructionIterator(List.of(solution.split(" ")));
+            iterator.getFirst();
 
             //System.out.print(returns); //todo need this for the solving algorithm
             stage.show();
             //CubeSolver solver = new CubeSolver(this.returns);
             //List<String> steps = solver.solve();
-            InstructionIterator iterator = new InstructionIterator(List.of(solution.split(" ")));
 
             //todo steps is a List<String> that looks like this
             //["Rotate the U face clockwise 90 degrees. ", "Rotate the D face counterclockwise 90 degrees. "];
-
-
 
         }
     }

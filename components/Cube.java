@@ -49,14 +49,10 @@ public class Cube {
    * Cube Constructor
    */
   public Cube() {
-    /* this.facelet = new ArrayList<>();
-    for (int i = 0; i < 54; i++) {
-      facelet.add(colours[i / 9]);
-    }
     char[] faceChars = {'U', 'L', 'F', 'R', 'B', 'D'};
     for (int i = 0; i < 6; i++) {
       faceToInt.put(faceChars[i], i * 9);
-    }*/
+    }
     String[] colours = {"⬜", "🟧", "🟩", "🟥", "🟦", "🟨"};
     Character[] faces = {'U', 'L', 'F', 'R', 'B', 'D'};
     for (int i = 0; i < 6; i++) {
@@ -84,6 +80,10 @@ public class Cube {
     createMoveSet("D", new Vector(0, -1, 0), (p) -> p.y < 0);
     createMoveSet("F", new Vector(0, 0, 1), (p) -> p.z > 0);
     createMoveSet("B", new Vector(0, 0, -1), (p) -> p.z < 0);
+    createMoveSet("x", new Vector(1, 0, 0), (p) -> true);
+    createMoveSet("y", new Vector(0, 1, 0), (p) -> true);
+    createMoveSet("z", new Vector(0, 0, 1), (p) -> true);
+
 
   }
 
@@ -165,14 +165,15 @@ public class Cube {
     }
   }
 
-  public void applyMoves(String scramble) {
-
+  public Cube applyMoves(String scramble) {
+    Cube newCube = new Cube();
     for (String moveName: scramble.split(" ")) {
       if (moveName != null) {
-        this.doMove(geoMoveSet.get(moveName));
+        newCube.doMove(geoMoveSet.get(moveName));
       }
     }
-    this.sortCube();
+    newCube.sortCube();
+    return newCube;
   }
   public void doMove(Move move) {
     for (Sticker s: pieces) {

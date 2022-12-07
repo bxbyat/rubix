@@ -12,7 +12,7 @@ public class Solver {
           Cube.S('L', 8),
           Cube.S('L', 9),
           Cube.S('F', 4),
-          Cube.S('F', 5),
+          Cube.S('F', 7),
           Cube.S('B', 6),
           Cube.S('B', 9),
           Cube.S('D', 1),
