@@ -16,7 +16,7 @@ public class Cube {
   /**
    * Maps standard move notation to moves for pieces
    */
-  public final HashMap<String, Move> moveSet = new HashMap<>();
+  public final HashMap<String, Move> geoMoveSet = new HashMap<>();
   /**
    * Holds the facelet model of the cube
    */
@@ -24,7 +24,7 @@ public class Cube {
   /**
    * Unused, to be removed?
    */
-  final HashMap<Character, Integer> faceToInt = new HashMap<Character, Integer>();
+  static final HashMap<Character, Integer> faceToInt = new HashMap<Character, Integer>();
   /**
    * Currently maps Character representing a face to its corresponding colour
    */
@@ -40,9 +40,9 @@ public class Cube {
     Move move1 = new Move(name, axis, 90, check);
     Move move2 = new Move(name + "2", axis, 180, check);
     Move move3 = new Move(name + "'", axis, 270, check);
-    moveSet.put(move1.name, move1);
-    moveSet.put(move2.name, move2);
-    moveSet.put(move3.name, move3);
+    geoMoveSet.put(move1.name, move1);
+    geoMoveSet.put(move2.name, move2);
+    geoMoveSet.put(move3.name, move3);
   }
 
   /**
@@ -169,7 +169,7 @@ public class Cube {
 
     for (String moveName: scramble.split(" ")) {
       if (moveName != null) {
-        this.doMove(moveSet.get(moveName));
+        this.doMove(geoMoveSet.get(moveName));
       }
     }
     this.sortCube();
