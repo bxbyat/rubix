@@ -307,6 +307,7 @@ public class CubeView {
             stage.show();
             CubeSolver solver = new CubeSolver(this.returns);
             List<String> steps = solver.solve();
+            InstructionIterator iterator = new InstructionIterator(steps);
 
             //todo steps is a List<String> that looks like this
             //["Rotate the U face clockwise 90 degrees. ", "Rotate the D face counterclockwise 90 degrees. "];
