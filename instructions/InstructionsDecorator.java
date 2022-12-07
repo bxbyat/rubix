@@ -1,4 +1,4 @@
-package rubix.instructions;
+package instructions;
 
 public abstract class InstructionsDecorator {
 

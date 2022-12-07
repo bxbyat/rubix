@@ -1,8 +1,4 @@
-package rubix;
-
-import rubix.instructions.Instructions;
-import rubix.instructions.ccwDecorator;
-import rubix.instructions.twoDecorator;
+import instructions.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;

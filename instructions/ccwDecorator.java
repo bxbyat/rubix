@@ -1,4 +1,4 @@
-package rubix.instructions;
+package instructions;
 
 public class ccwDecorator extends InstructionsDecorator {
 
