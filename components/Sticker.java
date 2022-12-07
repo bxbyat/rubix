@@ -10,9 +10,9 @@ public class Sticker {
    */
   public Vector pos;
 
-  public Sticker(Vector pos) {
+  public Sticker(Vector pos, Vector target) {
     this.pos = pos;
-    this.target = pos;
+    this.target = target == null ? pos : target;
   }
 
   public Character getFace() {
