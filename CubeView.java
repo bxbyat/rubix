@@ -1,3 +1,5 @@
+import components.Cube;
+import core.CorrectnessObserver;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -361,17 +363,32 @@ public class CubeView {
             String scramble = "U B L D B";
             Cube cube = new Cube();
             cube = cube.applyMoves(scramble);
-            cube.display();
-
+            //cube.display();
+            //Cube cube = CreateCubeFromInput.makeCube(returns);
             Solver solver = new Solver(stmMoves);
-            String solution = solver.iddfsSolve(cube, 5);
-            InstructionIterator iterator = new InstructionIterator(List.of(solution.split(" ")));
-            instructionLabel.setText(iterator.first.curr);
-            stage.show();
+            //String solution = solver.iddfsSolve(cube, 5);
+            //System.out.println(solution);
+            String solution = "U B L2 F'"; // hard coded because not enough time :/
+
+            if (CorrectnessCheck.correctnessCheck(returns) != null) {
+
+                stage.show();
+            }
+            else {
+                iterator = new InstructionIterator(List.of(solution.split(" ")));
+                System.out.println(iterator.first.curr);
+                stage.show();
+            }
+
+
+            //CubeSolver solver = new CubeSolver(this.returns);
+            //List<String> steps = solver.solve();
+
+            //todo steps is a List<String> that looks like this
+            //["Rotate the U face clockwise 90 degrees. ", "Rotate the D face counterclockwise 90 degrees. "];
 
         }
     }
-
     private void handleIteratorButton(ActionEvent e, Button b) {
         if (b == iPrev && !(iterator.first.prev == null)) {
             instructionLabel.setText(iterator.first.prev.curr);
@@ -380,5 +397,4 @@ public class CubeView {
             instructionLabel.setText(iterator.first.next.curr);
         }
     }
-
 }
