@@ -1,4 +1,4 @@
-package instructioniterator;
+//package instructioniterator;
 
 /**
  * An iterator helper for instructions.
@@ -24,6 +24,6 @@ public class InstructionNodes {
 
     public InstructionNodes(String curr){
         this.curr = curr;
-        this.currSymbol = curr.charAt(11) + "CW";
+        this.currSymbol = curr.charAt(0) + "CW";
     }
 }

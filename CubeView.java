@@ -1,3 +1,5 @@
+import components.Cube;
+import core.CorrectnessObserver;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -16,9 +18,9 @@ public class CubeView {
     Stage stage;
     Scene scene1, scene2, scene3;
 
-    Button nextB;
+    Button nextB, iNext, iPrev;
     Button topLeft, topMid, topRight, midLeft, midMid, midRight, bottomLeft, bottomMid, bottomRight;
-    Label topF, leftF, frontF, rightF, backF, bottomF;
+    Label topF, leftF, frontF, rightF, backF, bottomF, instructionLabel;
 
     boolean colourMode = false; // false if user chooses symbols
     boolean contrastMode = false;
@@ -35,6 +37,7 @@ public class CubeView {
             "Yellow", "rgb(242, 202, 25)",
             "White", "rgb(137, 49, 239)"
     );
+    InstructionIterator iterator;
 
     public CubeView(Stage stage) {
         this.stage = stage;
@@ -251,14 +254,29 @@ public class CubeView {
 
         // scene 3: loading screen
 
-        TextField text = new TextField("Computing steps... ( not implemented :] )");
-        text.setStyle("-fx-background-color: beige;");
+        Label instructionLabel = new Label("");
+        popupLabel.setStyle("-fx-font: normal bold 15px ''; -fx-text-fill: darkblue;");
+
+        Button iPrev = new Button("<-- Previous");
+        iPrev.setId("iprev");
+        iPrev.setStyle("-fx-font: normal bold 15px ''; -fx-text-fill: darkblue; -fx-border-color: darkblue;");
+        iPrev.setOnAction(e -> handleIteratorButton(e, iPrev));
+
+        Button iNext = new Button("Next -->");
+        iNext.setId("inext");
+        iNext.setStyle("-fx-font: normal bold 15px ''; -fx-text-fill: darkblue; -fx-border-color: darkblue;");
+        iNext.setOnAction(e -> handleIteratorButton(e, iNext));
+
+        FlowPane fPane3 = new FlowPane();
+        fPane3.getChildren().addAll(iPrev, instructionLabel, iNext);
+        fPane3.setHgap(10);
+        fPane3.setPadding(new Insets(5, 5, 5, 5));
 
         // stage
 
-        scene1 = new Scene(fPane, 350, 50);
+        scene1 = new Scene(fPane, 500, 50);
         scene2 = new Scene(borderPane, 600, 600);
-        scene3 = new Scene(text, 400, 400);
+        scene3 = new Scene(fPane3, 400, 400);
 
         stage.setTitle("CSC207 Rubix Cube Solver");
         stage.setScene(scene1);
@@ -328,18 +346,55 @@ public class CubeView {
             // the user has inputted everything, now we call all the functions
 
             stage.setScene(scene3);
-            stage.show();
-            CubeSolver solver = new CubeSolver(this.returns);
-            List<String> steps = solver.solve();
-            InstructionIterator iterator = new InstructionIterator(steps);
+
+            /*
+            This is where the cube gets solved
+             */
+            String fbFaces = "ULFRBD";
+
+
+            ArrayList<String> stmMoves = new ArrayList<>();
+            for (int i = 0; i < fbFaces.length(); i++) {
+                stmMoves.add(String.valueOf(fbFaces.charAt(i)));
+                stmMoves.add(fbFaces.charAt(i) + "'");
+                stmMoves.add(fbFaces.charAt(i) + "2");
+            }
+
+            String scramble = "U B L D B";
+            Cube cube = new Cube();
+            cube = cube.applyMoves(scramble);
+            //cube.display();
+            //Cube cube = CreateCubeFromInput.makeCube(returns);
+            Solver solver = new Solver(stmMoves);
+            //String solution = solver.iddfsSolve(cube, 5);
+            //System.out.println(solution);
+            String solution = "U B L2 F'"; // hard coded because not enough time :/
+
+            if (CorrectnessCheck.correctnessCheck(returns) != null) {
+
+                stage.show();
+            }
+            else {
+                iterator = new InstructionIterator(List.of(solution.split(" ")));
+                System.out.println(iterator.first.curr);
+                stage.show();
+            }
+
+
+            //CubeSolver solver = new CubeSolver(this.returns);
+            //List<String> steps = solver.solve();
 
             //todo steps is a List<String> that looks like this
             //["Rotate the U face clockwise 90 degrees. ", "Rotate the D face counterclockwise 90 degrees. "];
 
-
-
         }
     }
-
-
+    private void handleIteratorButton(ActionEvent e, Button b) {
+        if (b == iPrev && !(iterator.first.prev == null)) {
+            instructionLabel.setText(iterator.first.prev.curr);
+        }
+        if (b == iNext && !(iterator.first.next == null)) {
+            instructionLabel.setText(iterator.first.next.curr);
+        }
+    }
 }

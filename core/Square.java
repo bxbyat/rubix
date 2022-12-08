@@ -7,7 +7,7 @@ import java.util.HexFormat;
  * A square on a piece of a Rubik's Cube.
  */
 
-public class Square {
+public class Square implements CorrectnessObserver {
     /**
      * colour of square
      */
@@ -60,4 +60,8 @@ public class Square {
         return this.symbol;
     }
 
+    @Override
+    public void update() {
+
+    }
 }
