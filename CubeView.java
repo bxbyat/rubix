@@ -1,4 +1,5 @@
 import components.Cube;
+import core.CorrectnessObserver;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -329,8 +330,10 @@ public class CubeView {
             //System.out.println(solution);
             String solution = "U B L2 F'"; // hard coded because not enough time :/
 
+            System.out.println(CorrectnessCheck.correctnessCheck(returns));
+
             InstructionIterator iterator = new InstructionIterator(List.of(solution.split(" ")));
-            iterator.getFirst();
+            //iterator.getFirst();
 
             //System.out.print(returns); //todo need this for the solving algorithm
             stage.show();
